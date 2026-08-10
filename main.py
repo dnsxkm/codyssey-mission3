@@ -44,3 +44,46 @@ def mac(pattern, filt):
             score += pattern[r][c] * filt[r][c]
     return score
 
+EPSILON = 1e-9 # <--- 이 값은 모드1 , 모드2 에서도 씀. 상수로 박아두면 나중에 바꿀 때, 한줄만 고치면 된다.
+# 코드 최상단에 상수로 정의한 것.
+
+def decide(score_a, score_b):
+    """
+    두 점수를 epsilon 기반으로 비교해 판정한다.
+    차이가 EPSILON 보다 작으면 동점 -> 'UNDECIDE'
+    아니면 더 높은 쪽 반환 : 'A' 또는 'B'
+    """
+
+    if abs(score_a - score_b) < EPSILON :
+        return 'UNDECIDED'
+    if score_a > score_b :
+        return 'A'
+    return 'B'
+
+def run_mode1():
+    """모드1: 사용자 입력(3x3) 흐름"""
+    print('#--------------------------------------')
+    print('# [1] 필터 입력')
+    print('#--------------------------------------')
+    filter_a = read_grid(3, '필터A')
+    filter_b = read_grid(3, '필터B')
+
+    print('#--------------------------------------')
+    print('# [2] 패턴 입력')
+    print('#--------------------------------------')
+    pattern = read_grid(3, '패턴')
+
+    print('#--------------------------------------')
+    print('# [1] 필터 입력')
+    print('#--------------------------------------')
+    score_a = mac(pattern, filter_a)
+    score_b = mac(pattern, filter_b)
+    result = decide(score_a, score_b)
+
+    print(f"A 점수: {score_a}")
+    print(f"B 점수: {score_b}")
+    if result == 'UNDECIDED':
+        print('판정불가 ( |A-B| < 1e-9 )')
+    else:
+        print(f"판정: {result}")
+
