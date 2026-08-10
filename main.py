@@ -1,3 +1,5 @@
+import time
+
 def read_grid(n, name):
     """"
     nxn 그리드를 콘솔에서 한 줄씩(공백 구분) 입력받아 2차원 리스트로 반환한다.
@@ -44,6 +46,21 @@ def mac(pattern, filt):
             score += pattern[r][c] * filt[r][c]
     return score
 
+
+def measure_mac(pattern, filt, repeat=10):
+    """
+    mac(pattern, filt)를 repeat회 반복 실행하고 평균 시간을 ms로 반환한다.
+    I/O를 제외하고 연산 함수 호출 구간만 측정한다.
+    """
+    start = time.perf_counter()
+    for _ in range(repeat):
+        mac(pattern, filt)
+    end = time.perf_counter()
+    total_seconds = end - start
+    avg_ms = (total_seconds / repeat) * 1000
+    return avg_ms
+
+
 EPSILON = 1e-9 # <--- 이 값은 모드1 , 모드2 에서도 씀. 상수로 박아두면 나중에 바꿀 때, 한줄만 고치면 된다.
 # 코드 최상단에 상수로 정의한 것.
 
@@ -74,7 +91,7 @@ def run_mode1():
     pattern = read_grid(3, '패턴')
 
     print('#--------------------------------------')
-    print('# [1] 필터 입력')
+    print('# [3] MAC 결과')
     print('#--------------------------------------')
     score_a = mac(pattern, filter_a)
     score_b = mac(pattern, filter_b)
@@ -87,3 +104,32 @@ def run_mode1():
     else:
         print(f"판정: {result}")
 
+    print('#--------------------------------------')
+    print('# [4] 성능 분석 (평균/10회)')
+    print('#--------------------------------------')
+    avg_ms = measure_mac(pattern, filter_a)
+    n = len(pattern)
+    print(f'연산 시간(평균/10회): {avg_ms:.3f} ms')
+    print(f'크기: {n}×{n} / 연산 횟수(N²): {n * n}')
+
+
+
+def main():
+    """프로그램 진입점: 모드 선택 후 해당 모드 실행"""
+    print("=== Mini NPU Simulator. ===")
+    print()
+    print('[모드 선택]')
+    print()
+    print('1. 사용자 입력(3x3')
+    print('2. data.json 분석')
+    choice = input().strip()
+
+    if choice == '1':
+        run_mode1()
+    elif choice == '2':
+        print('(모드2는 아직 준비 중)') # 다음 단계에서 run_mode2()로 교체
+    else:
+        print('1 또는 2를 선택하세요.')
+
+if __name__ == '__main__':
+    main()
