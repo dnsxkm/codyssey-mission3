@@ -136,6 +136,8 @@ def run_mode1():
     print('#--------------------------------------')
     filter_a = read_grid(3, '필터A')
     filter_b = read_grid(3, '필터B')
+    print('필터 A 저장 완료')
+    print('필터 B 저장 완료')
 
     print('#--------------------------------------')
     print('# [2] 패턴 입력')
@@ -214,8 +216,13 @@ def run_mode2():
             filt_key = f'size_{n}'
             if filt_key not in filters:
                 raise ValueError(f'{filt_key} 필터가 없습니다.')
-            cross_filter = filters[filt_key]['cross']
-            x_filter = filters[filt_key]['x']
+
+            filt_map = {}
+            for raw_key, grid in filters[filt_key].items():
+                label = normalize_label(raw_key)
+                filt_map[label] = grid
+            cross_filter = filt_map['Cross']
+            x_filter = filt_map['X']
 
             # 크기 검증
             if (len(pattern) != n) or (any(len(row) != n for row in pattern)):
@@ -284,7 +291,7 @@ def run_mode2():
 
 def main():
     """프로그램 진입점: 모드 선택 후 해당 모드 실행"""
-    print("=== Mini NPU Simulator. ===")
+    print("=== Mini NPU Simulator ===")
     print()
     print('[모드 선택]')
     print()
