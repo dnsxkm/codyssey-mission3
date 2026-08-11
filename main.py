@@ -261,7 +261,7 @@ def run_mode2():
         p = make_cross(size)
         f = make_cross(size)
         avg_ms = measure_mac(p, f)
-        print(f'{size}x{size}       {avg_ms:.3f}        {size * size}')
+        print(f'{size}×{size}       {avg_ms:.3f}        {size * size}')
 
 
     # [4] 결과 요약
@@ -288,7 +288,7 @@ def main():
     print()
     print('[모드 선택]')
     print()
-    print('1. 사용자 입력(3x3')
+    print('1. 사용자 입력(3x3)')
     print('2. data.json 분석')
     choice = input().strip()
 
