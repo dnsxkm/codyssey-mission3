@@ -46,6 +46,38 @@ def mac(pattern, filt):
             score += pattern[r][c] * filt[r][c]
     return score
 
+def make_cross(n):
+    """nxn 십자가(Cross) 패턴 생성: 가운데 행/열이 1, 나머지 0"""
+    mid = n // 2
+    grid = []
+    for r in range(n):
+        row = []
+        for c in range(n):
+            if (r==mid) or (c==mid):
+                row.append(1)
+            else:
+                row.append(0)
+        grid.append(row)
+
+    return grid
+
+def make_x(n):
+    """nxn X패턴 생성: 두 대각선이 1, 나머지 0"""
+    grid = []
+    for r in range(n):
+        row = []
+        for c in range(n):
+            if (r==c) or (r+c == n-1):
+                row.append(1)
+            else:
+                row.append(0)
+
+        grid.append(row)
+
+    return grid
+
+
+
 
 def measure_mac(pattern, filt, repeat=10):
     """
